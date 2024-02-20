@@ -1,23 +1,28 @@
-import enums.StudyProfile;
 import models.Student;
 import models.University;
 
+import handlers.XlsReader;
+
+import java.io.IOException;
+import java.util.List;
+
 public class Runner {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
-        Student student = new Student();
-        student.setAvgExamScore((float) 4.7);
-        student.setCurrentCourseNumber(4);
-        student.setFullName("Fedorov Petr Aleksandrovich");
-        student.setUniversityId("758");
-        System.out.println(student);
+        System.out.println("Университеты");
 
-        University university = new University();
-        university.setId("758");
-        university.setFullName("Ryazan State Radio Engineering University");
-        university.setShortName("RSREU");
-        university.setYearOfFoundation(1951);
-        university.setMainProfile(StudyProfile.PHYSICS);
-        System.out.println(university);
+        List<University> universities =
+                XlsReader.readXlsUniversities("src/main/resources/universityInfo.xlsx");
+        for (University university : universities) {
+            System.out.println(university);
+        }
+
+        System.out.println("\nСтуденты");
+
+        List<Student> students =
+                XlsReader.readXlsStudents("src/main/resources/universityInfo.xlsx");
+        for (Student student : students) {
+            System.out.println(student);
+        }
     }
 }
