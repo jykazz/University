@@ -1,39 +1,39 @@
 package utils;
+
 import enums.StudentComparatorType;
 import enums.UniversityComparatorType;
-import models.Student;
-import models.University;
-
-import java.util.Comparator;
+import utils.comparator.*;
 
 public class ComparatorUtil {
-    public static Comparator<Student> getStudentComparator(StudentComparatorType comparatorType) {
+    public static StudentComparator getStudentComparator(StudentComparatorType comparatorType) {
         switch (comparatorType) {
             case FULL_NAME:
-                return Comparator.comparing(Student::getFullName);
+                return new StudentFullNameComparator();
             case UNIVERSITY_ID:
-                return Comparator.comparing(Student::getUniversityId);
+                return new StudentUniversityIdComparator();
             case CURRENT_COURSE_NUMBER:
-                return Comparator.comparingInt(Student::getCurrentCourseNumber);
+                return new StudentCurrentCourseNumberComparator();
             case AVG_EXAM_SCORE:
-                return (s1, s2) -> Float.compare(s2.getAvgExamScore(), s1.getAvgExamScore());
+                return new StudentAvgExamScoreComparator();
             default:
-                throw new IllegalArgumentException("Unknown comparator type for student: " + comparatorType);
+                return new StudentFullNameComparator();
         }
     }
 
-    public static Comparator<University> getUniversityComparator(UniversityComparatorType comparatorType) {
+    public static UniversityComparator getUniversityComparator(UniversityComparatorType comparatorType) {
         switch (comparatorType) {
+            case ID:
+                return new UniversityIdComparator();
             case FULL_NAME:
-                return Comparator.comparing(University::getFullName);
+                return new UniversityFullNameComparator();
             case SHORT_NAME:
-                return Comparator.comparing(University::getShortName);
+                return new UniversityShortNameComparator();
             case YEAR_OF_FOUNDATION:
-                return Comparator.comparingInt(University::getYearOfFoundation);
+                return new UniversityYearOfFoundationComparator();
             case MAIN_PROFILE:
-                return Comparator.comparing(university -> university.getMainProfile().getProfileName());
+                return new UniversityMainProfileComparator();
             default:
-                throw new IllegalArgumentException("Unknown comparator type for university: " + comparatorType);
+                return new UniversityFullNameComparator();
         }
     }
 }
